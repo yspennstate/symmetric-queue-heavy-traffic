@@ -1,0 +1,333 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools,enumitem}
+\usepackage[margin=1.1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+
+\newcommand{\E}{\mathbb E}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\R}{\mathbb R}
+
+\hypersetup{pdftitle={The heavy-traffic diffusion limit of symmetric queues},pdfauthor={Yitzchak Shmalo}}
+
+\title{The heavy-traffic diffusion limit of symmetric queues}
+\author{Yitzchak Shmalo}
+\address{Einstein Institute of Mathematics, The Hebrew University of Jerusalem, Jerusalem, Israel}
+\email{yitzchak.shmalo@gmail.com}
+\date{5 November 2026}
+\subjclass[2020]{60K25, 60F17, 90B22}
+\keywords{symmetric queue, heavy traffic, diffusion approximation, state-space collapse, processor sharing, regenerative process}
+
+\begin{document}
+\begin{abstract}
+Consider an M/G/1 queue operating under a symmetric service discipline in the sense of Kelly: at queue length $n$ the job in position $i$ receives the fraction $\gamma(n,i)$ of the server, and an arriving job joins position $i$ with probability $\gamma(n+1,i)$. Zwart conjectured that, for every such discipline and every service law with finite second moment, the queue length started empty and scaled diffusively in heavy traffic converges to the same reflected Brownian motion, the workload limit divided by $h=\E B^2/(2\E B)$. This was known for processor sharing and for last-come-first-served. We prove the conjecture for every symmetric discipline and every service law with $\E B^2<\infty$. The proof is a state-space collapse $\sup_{s\le r^2T}|W_r(s)-hQ_r(s)|=o_{\Pp}(r)$. It uses only the product-form stationary law of the queue with the original service requirements kept as marks, the regenerative structure at empty times, and a Bernstein bound for jobs grouped into dyadic classes of original requirement, which can be summed over the classes because the number of busy cycles up to time $r^2T$ is of order $r$.
+\end{abstract}
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+A symmetric queue \cite{Kel} is a single-server queue in which the jobs present are arranged in positions $1,\dots,n$, the job in position $i$ is served at rate $\gamma(n,i)$, and a job arriving to a queue with $n-1$ jobs is placed in position $i$ with probability $\gamma(n,i)$; jobs behind an inserted job move back one place, and jobs behind a departing job move forward. Here $\gamma(n,i)\ge0$ and $\sum_{i=1}^n\gamma(n,i)=1$. Processor sharing, $\gamma(n,i)=1/n$, and preemptive last-come-first-served, $\gamma(n,1)=1$, are the best-known examples. With Poisson arrivals the stationary law is insensitive: the queue length is geometric and, given the queue length, the residual service requirements are independent with the equilibrium residual law, whatever $\gamma$ and the service law are \cite{Kel}.
+
+Zwart \cite{Zwa} asked whether this insensitivity extends to the heavy-traffic diffusion limit. Let the $r$-th system have arrival rate $\lambda_r$, service requirements distributed as a fixed random variable $B$ with
+\[
+m=\E B\in(0,\infty),\qquad m_2=\E B^2<\infty,\qquad h=\frac{m_2}{2m},
+\]
+and suppose $r(1-\lambda_rm)\to\beta\in\R$. Let $Q_r(t)$ be the number of jobs and $W_r(t)$ the workload at time $t$. The workload does not depend on $\gamma$, and the classical functional central limit theorem gives $W_r(r^2\cdot)/r\Rightarrow\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$, where $\sigma^2=m_2/m$, $\mathcal B$ is a standard Brownian motion and $\Gamma(x)(t)=x(t)-\min(0,\inf_{s\le t}x(s))$ is the reflection map at zero. Fralix and Zwart \cite{FZ} showed that for a queue started empty the law of $Q_r(t)$ at a fixed time does not depend on $\gamma$. Problem~1 of \cite{Zwa} asks whether $Q_r(r^2\cdot)/r$ converges, for every symmetric discipline, to $h^{-1}\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$. For processor sharing this was proved by Gromoll \cite{Gro} under a fourth-moment assumption and by Lambert, Simatos and Zwart \cite{LSZ} under the second moment alone; for last-come-first-served it is due to Limic \cite{Lim}. We prove it in general.
+
+\begin{theorem}\label{thm:main}
+Let $\gamma$ be any symmetric discipline and let $B$ be a nonnegative random variable with $0<\E B<\infty$ and $\E B^2<\infty$. Suppose $r(1-\lambda_r\E B)\to\beta\in\R$ and $Q_r(0)=0$. Then, in $D([0,\infty))$ with the $J_1$ topology,
+\[
+\frac{Q_r(r^2\,\cdot)}r\Rightarrow\frac1h\,\Gamma\bigl(\sigma\mathcal B-\beta\,\mathrm{id}\bigr),\qquad \sigma^2=\frac{\E B^2}{\E B},\quad h=\frac{\E B^2}{2\E B}.
+\]
+\end{theorem}
+
+Since the workload converges and the limit is continuous, the theorem is equivalent to the uniform state-space collapse
+\begin{equation}\label{eq:collapse}
+\frac1r\sup_{s\le r^2T}\bigl|W_r(s)-hQ_r(s)\bigr|\to0\quad\text{in probability, for every }T<\infty.
+\end{equation}
+The difficulty is that $W_r-hQ_r$ is a sum of residual requirements minus their stationary mean, and the residual law has only a first moment when $\E B^2<\infty$. A lower bound on $W_r-hQ_r$ follows from exponential lower-tail bounds for nonnegative summands, together with a sampling of the stationary process at $O(r)$ times and a deterministic interpolation inequality (Section~\ref{sec:lower}). For the upper bound we keep the original service requirement of every job as a mark. Jobs with original requirement at most a fixed $L$ contribute summands bounded by $2L$, to which Hoeffding's inequality applies. Jobs with original requirement in a dyadic band $(b,2b]$ with $L<b\le r$ contribute summands bounded by $2b$, and their residual work can only cross a high level at the arrival of a job of that band. We count these arrivals over whole busy cycles: by the regenerative structure the expected number of arrivals per cycle whose pre-arrival state lies in a set $S$ is exactly $r\,p\,\pi_r(S)$, where $p$ is the probability of the band and $\pi_r$ the stationary law, and there are $O(r)$ cycles before time $r^2T$. A Bernstein bound for $\pi_r(S)$ then decays like $\exp(-c2^{j/2})$ in the index $j$ of the band, which is summable, while $r^2p\le4b^{-2}r^2\E[B^2;B\in(b,2b]]$ tends to zero for each fixed band. Jobs with original requirement above $r$ carry total work $o_{\Pp}(r)$ on $[0,r^2T]$ because $\E B^2<\infty$ (Section~\ref{sec:upper}). The theorem for every real $\beta$ then follows by a change of measure from one reference load (Section~\ref{sec:proof}).
+
+The argument uses no diffusion limit for the queue length, no fluid model and no measure-valued process; the only inputs about symmetric queues are the product-form stationary law and the fact that the workload does not depend on $\gamma$.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\subsection{Reductions}
+Arrivals with $B=0$ leave immediately and do not change the right-continuous state. Removing them leaves a Poisson stream of rate $\lambda_r\Pp(B>0)$ with service law $B$ conditioned to be positive, with the same load $\lambda_r\E B$, the same $h$ and the same $\sigma^2$. We therefore assume $B>0$ almost surely. Let $F$ be the law of $B$.
+
+All estimates up to Section~\ref{sec:proof} are made at the reference rate
+\[
+\lambda_r^0=\frac{1-1/r}m,\qquad \rho_r^0=\lambda_r^0m=1-\frac1r,\qquad r>1,
+\]
+for which $r(1-\rho^0_r)=1$. We write $\Pp_0$ for the law of the queue started empty at this rate and $\Pp_\pi$ for its stationary version. Constants $c,C$ may depend on $T$, on tolerances and on $F$, but never on $\gamma$ or $r$.
+
+The state of the queue is the sequence $((b_1,x_1),\dots,(b_n,x_n))$, where $b_i$ is the original requirement of the job in position $i$ and $x_i\in(0,b_i]$ its remaining requirement. For a Borel set $I\subset(0,\infty)$ and a time $s$, let $V_I(s)=\sum_ix_i\1\{b_i\in I\}$ be the remaining work of jobs whose original requirement lies in $I$, so $W_r=V_{(0,\infty)}$. Let $A_r(t)$ be the number of arrivals in $[0,t]$.
+
+\subsection{The stationary law}
+Let $H$ be the probability measure on $\{(b,x):0<x<b\}$ given by
+\[
+H(db\,dx)=\frac1m\,F(db)\,\1\{0<x<b\}\,dx .
+\]
+Its $x$-marginal has density $\Pp(B>x)/m$, the equilibrium residual law, with mean $h$. For a Borel set $I$ write $X_I=x\1\{b\in I\}$ under $H$; then
+\begin{equation}\label{eq:XI}
+\E_H X_I=\frac{\E[B^2;B\in I]}{2m},\qquad\text{and if }I\subset(0,2a]:\quad0\le X_I\le2a,\ \ \E_HX_I^2\le2a\,\E_HX_I .
+\end{equation}
+
+\begin{lemma}\label{lem:product}
+For $\rho=\lambda m<1$ the symmetric queue with marks has the unique stationary law
+\[
+\pi\bigl(Q=n,\ ((b_i,x_i))_{i\le n}\in\cdot\bigr)=(1-\rho)\rho^n\,H^{\otimes n}(\cdot).
+\]
+\end{lemma}
+
+\begin{proof}
+This is the product-form theorem for symmetric queues \cite[Chapter~3]{Kel}, with the original requirement carried along as part of the job type; we indicate the balance computation. Let $p_n=(1-\rho)\rho^n$ and let $f_n$ be bounded smooth test functions of $n$ marked jobs. In the coordinate of the job in position $i$, which is served at rate $\gamma(n,i)$, integration by parts gives
+\[
+\int\frac{F(db)}m\int_0^b-\partial_xf_n(\dots,(b,x),\dots)\,dx=\int\frac{F(db)}m\bigl[f_{n-1}(\text{job $i$ removed})-f_n(\dots,(b,b),\dots)\bigr].
+\]
+After multiplying by $\gamma(n,i)p_n$ and summing over $i$, the second term cancels the insertion of an arrival in position $i$ of a queue of $n-1$ jobs, because $p_n/m=\lambda p_{n-1}$ and insertion at $i$ has probability $\gamma(n,i)$. The first term, at level $n+1$, has coefficients $\gamma(n+1,i)$ summing to one and cancels the loss of probability at level $n$ due to arrivals. Hence the measure is invariant. Uniqueness follows from the regeneration at the empty state, whose cycles have finite mean (Lemma~\ref{lem:cycle}).
+\end{proof}
+
+\subsection{Busy cycles}
+A cycle is an idle period followed by the busy period that ends it. Let $C_r$ be the length of the first cycle under $\Pp_0$. Cycles are independent and identically distributed.
+
+\begin{lemma}\label{lem:cycle}
+$\E C_r=r/\lambda_r^0$. Let $I$ be a Borel set with $p_I=\Pp(B\in I)$, let $S$ be a measurable set of states, and let $Y$ be the number of arrivals during the first cycle whose original requirement lies in $I$ and whose pre-arrival state lies in $S$. Then $\E Y=r\,p_I\,\pi_r(S)$, where $\pi_r$ is the stationary law at rate $\lambda^0_r$.
+\end{lemma}
+
+\begin{proof}
+The busy period has the same length under every work-conserving discipline. Under first-come-first-served it is the total work of a Galton--Watson tree in which a job of requirement $b$ has a Poisson($\lambda^0_rb$) number of children; generation $k$ has mean total work $m(\rho^0_r)^k$, so the busy period has mean $m/(1-\rho_r^0)=mr$ and is finite almost surely. Adding the idle period of mean $1/\lambda^0_r$ gives $\E C_r=(1+\lambda^0_rmr)/\lambda^0_r=r/\lambda^0_r$. Let $X(s)$ be the state. The process counting arrivals with requirement in $I$ and pre-arrival state in $S$ has compensator $\lambda^0_rp_I\int_0^t\1\{X(s-)\in S\}\,ds$, since the marks are independent of the past. The compensated process stopped at $C_r$ has expected quadratic variation at most $\lambda^0_rp_I\E C_r<\infty$, so optional stopping applies, and
+\[
+\E Y=\lambda^0_rp_I\,\E\int_0^{C_r}\1\{X(s-)\in S\}\,ds=\lambda^0_rp_I\,\E C_r\,\pi_r(S)=r\,p_I\,\pi_r(S),
+\]
+by the renewal-reward theorem and the fact that $X(s-)=X(s)$ for almost every $s$.
+\end{proof}
+
+\subsection{The workload}
+Work conservation gives $W_r=\Gamma(\sum_{k\le A_r(\cdot)}B_k-\mathrm{id})$, and the idle time $I_r(t)=\int_0^t\1\{W_r(s)=0\}\,ds$ is the regulator of this reflection. At the reference rate the compound Poisson functional central limit theorem and the continuity of $\Gamma$ \cite{Whi} give
+\begin{equation}\label{eq:wfclt}
+\Bigl(\frac{W_r(r^2\cdot)}r,\frac{I_r(r^2\cdot)}r\Bigr)\Rightarrow\bigl(\Gamma(\sigma\mathcal B-\mathrm{id}),\,\Gamma(\sigma\mathcal B-\mathrm{id})-(\sigma\mathcal B-\mathrm{id})\bigr).
+\end{equation}
+In particular $\sup_{s\le r^2T}W_r(s)/r$ and $I_r(r^2T)/r$ are tight. Finally, since the stationary process conditioned on being empty at time $0$ is the queue started empty, and $\pi_r(Q=0)=1-\rho^0_r=1/r$,
+\begin{equation}\label{eq:cond}
+\Pp_0(E)=\Pp_\pi(E\mid Q(0)=0)\le r\,\Pp_\pi(E)
+\end{equation}
+for every event $E$ of the future path.
+
+\subsection{An interpolation inequality}
+Let $\mu\in[0,h]$, let $I$ be a Borel set with $\E[B^2;B\in I]/(2m)=\mu$, and put $D=V_I-\mu Q_r$. Between events $V_I$ decreases at rate at most one; an arrival changes $D$ by $B\1\{B\in I\}-\mu\ge-\mu$; a departure removes a job with no remaining work and increases $D$ by $\mu$. Hence for $u\le v$
+\begin{equation}\label{eq:bridge}
+D(v)\ge D(u)-(v-u)-h\bigl[A_r(v)-A_r(u)\bigr],
+\end{equation}
+and if $u\le t\le v$, applying \eqref{eq:bridge} on $[u,t]$ and on $[t,v]$, with $\beta_{u,v}=(v-u)+h[A_r(v)-A_r(u)]$,
+\begin{equation}\label{eq:sandwich}
+D(u)-\beta_{u,v}\le D(t)\le D(v)+\beta_{u,v}.
+\end{equation}
+Fix $\delta>0$ and the grid $t_k=k\delta r$, $0\le k\le K_r=\lceil rT/\delta\rceil$. If $M>1/m$, the Poisson bound $\Pp(\mathrm{Poisson}(\nu)>M\delta r)\le\exp(-\delta r[M\log(M/\nu')-M+\nu'])$ for $\nu\le\nu'\delta r$, $\nu'=1/m$, and a union bound over the $O(r)$ grid intervals show that
+\begin{equation}\label{eq:budget}
+\Pp_0\bigl(\beta_{t_k,t_{k+1}}\le(1+hM)\delta r\text{ for all }k<K_r\bigr)\to1 .
+\end{equation}
+
+\section{The lower bound}\label{sec:lower}
+
+Let $R_1,R_2,\dots$ be independent with the equilibrium residual law and $S_n=R_1+\dots+R_n$.
+
+\begin{lemma}\label{lem:lowertail}
+For every $K,\eta>0$ there are $c_0,c_1>0$ such that for all $r\ge1$ and all $n\ge0$,
+\[
+\Pp\bigl(S_n\le Kr,\ S_n-hn<-\eta r\bigr)\le c_0e^{-c_1r}.
+\]
+\end{lemma}
+
+\begin{proof}
+Fix $\theta_0>0$, let $\kappa=-\log\E e^{-\theta_0R}>0$ and $C>2\theta_0K/\kappa$. For $n>Cr$, $\Pp(S_n\le Kr)\le e^{\theta_0Kr-\kappa n}\le e^{-\kappa n/2}\le e^{-\kappa Cr/2}$. For $n\le Cr$, dominated convergence gives $\E e^{-\theta R}=1-\theta h+o(\theta)$ as $\theta\downarrow0$, so we may choose $\theta>0$ with $\log\E e^{-\theta(R-h)}\le\theta\eta/(2C)$, and then $\Pp(S_n-hn<-\eta r)\le e^{-\theta\eta r+n\theta\eta/(2C)}\le e^{-\theta\eta r/2}$. The event is empty for $n=0$.
+\end{proof}
+
+\begin{proposition}\label{prop:lower}
+Under $\Pp_0$, $\frac1r\sup_{s\le r^2T}\bigl(hQ_r(s)-W_r(s)\bigr)^+\to0$ in probability. Consequently $\sup_{s\le r^2T}Q_r(s)/r$ is tight.
+\end{proposition}
+
+\begin{proof}
+Let $D=W_r-hQ_r$, the case $I=(0,\infty)$, $\mu=h$ of \eqref{eq:bridge}. Fix $\epsilon>0$, $\eta=\epsilon/2$, and $\delta$ with $(1+hM)\delta\le\epsilon/2$. Under $\Pp_\pi$, given $Q_r(t_k)=n$, the workload $W_r(t_k)$ is distributed as $S_n$ by Lemma~\ref{lem:product}. By \eqref{eq:cond} and Lemma~\ref{lem:lowertail},
+\[
+\begin{aligned}
+\Pp_0\Bigl(\exists k\le K_r:\ W_r(t_k)\le Kr,\ D(t_k)<-\eta r\Bigr)&\le r\sum_{k\le K_r}\Pp_\pi\bigl(W_r(t_k)\le Kr,\ D(t_k)<-\eta r\bigr)\\
+&\le Cr^2e^{-c_1r}.
+\end{aligned}
+\]
+On the complement of this event, on the event in \eqref{eq:budget} and on $\{\sup_{s\le r^2(T+1)}W_r(s)\le Kr\}$, the left inequality in \eqref{eq:sandwich} gives $D(t)\ge-\epsilon r$ for $t\le r^2T$. The last event has probability close to one for $K$ large by \eqref{eq:wfclt}. The tightness follows from $hQ_r\le W_r+(hQ_r-W_r)^+$.
+\end{proof}
+
+\begin{lemma}\label{lem:ncycles}
+Let $N_r(t)$ be the number of busy periods started in $[0,t]$. Under $\Pp_0$, $N_r(r^2T)/r$ is tight.
+\end{lemma}
+
+\begin{proof}
+Since $B>0$, $N_r(t)=\int_0^t\1\{W_r(s-)=0\}\,dA_r(s)$, whose compensator is $\lambda^0_rI_r(t)$. Let $\tau=\inf\{t:I_r(t)\ge ar\}$. The martingale $N_r-\lambda_r^0I_r$ stopped at $\tau$ has variance at most $\lambda^0_rar$ at time $r^2T$, so by Chebyshev's inequality $(N_r-\lambda^0_rI_r)(r^2T\wedge\tau)/r\to0$ in probability for each $a$. Since $I_r(r^2T)/r$ is tight, $\Pp_0(\tau\le r^2T)$ is small for large $a$, uniformly in large $r$, and $\lambda_r^0I_r(r^2T)/r$ is tight.
+\end{proof}
+
+\section{The upper bound}\label{sec:upper}
+
+Fix $L>0$. For large $r$ let $J_r=\lfloor\log_2(r/L)\rfloor$ and $\ell_r=r2^{-J_r}\in[L,2L)$. We split the jobs according to their original requirement into three groups: at most $\ell_r$, in $(\ell_r,r]$, and above $r$.
+
+\subsection{Small requirements}
+Let $\mu_{\rm s}=\E[B^2;B\le\ell_r]/(2m)\le h$ and $D_{\rm s}=V_{(0,\ell_r]}-\mu_{\rm s}Q_r$.
+
+\begin{proposition}\label{prop:small}
+For every fixed $L$ and $\epsilon>0$, $\Pp_0\bigl(\sup_{s\le r^2T}|D_{\rm s}(s)|>\epsilon r\bigr)\to0$.
+\end{proposition}
+
+\begin{proof}
+Under $\Pp_\pi$ and given $Q_r=n$, $V_{(0,\ell_r]}$ is a sum of $n$ independent copies of $X_{(0,\ell_r]}$, which lie in $[0,2L]$ and have mean $\mu_{\rm s}$. By Hoeffding's inequality, for $n\le Cr$, uniformly over $\ell_r\in[L,2L)$,
+\[
+\Pp_\pi\bigl(|D_{\rm s}|>\tfrac\epsilon2r,\ Q_r\le Cr\bigr)\le2\exp\Bigl(-\frac{\epsilon^2r}{8CL^2}\Bigr).
+\]
+By \eqref{eq:cond} the probability under $\Pp_0$ that this happens at some grid point $t_k$ is $O(r^2e^{-cr})$. Apply \eqref{eq:sandwich} to $D_{\rm s}$, using the preceding grid point for the lower bound and the following one for the upper bound, with $\delta$ chosen as in the proof of Proposition~\ref{prop:lower}, and remove the restriction $Q_r\le Cr$ by Proposition~\ref{prop:lower}, letting $C\to\infty$ after $r\to\infty$.
+\end{proof}
+
+\subsection{Dyadic classes}
+For $0\le j<J_r$ let
+\[
+b_j=r2^{-j-1},\quad I_j=(b_j,2b_j],\quad p_j=\Pp(B\in I_j),\quad w_j=\E[B^2;B\in I_j],\quad\mu_j=\frac{w_j}{2m},\quad V_j=V_{I_j},
+\]
+all depending on $r$. The classes partition $(\ell_r,r]$. Let $q=2^{-1/4}$ and $a_j=(1-q)q^j$, so that $\sum_{j\ge0}a_j=1$. For $C,\epsilon>0$ put
+\[
+x_j=\epsilon ra_j,\qquad M_j=Cr\mu_j+x_j .
+\]
+
+\begin{proposition}\label{prop:dyadic}
+For all $C,A,\epsilon>0$,
+\[
+\Pp_0\Bigl(\exists j<J_r,\ \exists s\le r^2T:\ V_j(s)>M_j;\ \sup_{s\le r^2T}Q_r(s)\le Cr;\ N_r(r^2T)\le Ar\Bigr)\to0 .
+\]
+\end{proposition}
+
+\begin{proof}
+Each $V_j$ is zero at the start of every cycle, decreases during service, and increases only at the arrival of a job with requirement in $I_j$, by at most $2b_j$. If $V_j$ exceeds $M_j$ at a time $s\le r^2T$ and $Q_r\le Cr$ on $[0,r^2T]$, then some arrival with requirement in $I_j$ at a time at most $s$ has pre-arrival state in
+\[
+S_j=\{Q\le Cr,\ V_j>M_j-2b_j\}.
+\]
+On $\{N_r(r^2T)\le Ar\}$ this arrival occurs in one of the first $\lceil Ar\rceil+1$ cycles. By Markov's inequality and Lemma~\ref{lem:cycle} applied to each of these cycles,
+\begin{equation}\label{eq:perclass}
+\Pp_0\bigl(\text{the event for class }j\bigr)\le(\lceil Ar\rceil+1)\,r\,p_j\,\pi_r(S_j)\le C_Ar^2p_j\,\pi_r(S_j).
+\end{equation}
+No independence between the cycles and the number of cycles is needed here, since the cycles counted are the first $\lceil Ar\rceil+1$, whatever their lengths. Since $B>b_j$ on $I_j$,
+\begin{equation}\label{eq:r2p}
+r^2p_j\le r^2b_j^{-2}w_j=4^{j+1}w_j .
+\end{equation}
+
+We bound $\pi_r(S_j)$. Since $x_j/(4b_j)=\epsilon(1-q)2^{3j/4-1}$, there is $j_0=j_0(\epsilon)$ with $x_j\ge4b_j$ for $j\ge j_0$. For such $j$, on $S_j$ with $Q=n\le Cr$ we have $V_j-n\mu_j>x_j-2b_j\ge x_j/2$. Given $Q=n$, $V_j$ is a sum of $n$ independent copies of $X_{I_j}$, which by \eqref{eq:XI} are bounded by $2b_j$, have mean $\mu_j$ and second moment at most $2b_j\mu_j$; the variance of the sum is at most $\mathcal V=Cr\,2b_j\mu_j=(C/m)rb_jw_j$. Bernstein's inequality for sums of independent variables bounded above by $2b_j$ gives
+\[
+\pi_r(S_j)\le\exp\Bigl(-\frac{(x_j/2)^2}{2(\mathcal V+2b_jx_j/6)}\Bigr)=\exp\Bigl(-\frac{x_j^2}{8(\mathcal V+b_jx_j/3)}\Bigr).
+\]
+Using $w_j\le m_2$, $a_j\le1$ and $r/b_j=2^{j+1}$,
+\[
+\frac{x_j^2}{8(\mathcal V+b_jx_j/3)}\ge\frac{\epsilon^2r^2a_j^2}{8rb_j\bigl(Cm_2/m+\epsilon/3\bigr)}=\frac{\epsilon^2(1-q)^2}{4(Cm_2/m+\epsilon/3)}\,2^{j/2}=c\,2^{j/2}.
+\]
+By \eqref{eq:perclass} and \eqref{eq:r2p} the probability of the event for class $j$ is at most $C_A4^{j+1}w_j\min(1,e^{-c2^{j/2}})$ for $j\ge j_0$ and at most $C_A4^{j+1}w_j$ for $j<j_0$. For each fixed $j$, $w_j=\E[B^2;B\in(r2^{-j-1},r2^{-j}]]\to0$ as $r\to\infty$, and $C_A4^{j+1}w_j e^{-c2^{j/2}}\le C_Am_24^{j+1}e^{-c2^{j/2}}$, which is summable in $j$. By dominated convergence for the sum over $j$ (extended by zero for $j\ge J_r$), the union over $j$ has probability tending to zero.
+\end{proof}
+
+\subsection{Large requirements and the upper bound}
+Let $V_{\rm b}=V_{(r,\infty)}$. Starting empty,
+\[
+\sup_{s\le r^2T}V_{\rm b}(s)\le\sum_{k\le A_r(r^2T)}B_k\1\{B_k>r\},
+\]
+and the expectation of the right side divided by $r$ is
+\begin{equation}\label{eq:big}
+\lambda_r^0rT\,\E[B;B>r]\le\lambda^0_rT\,\E[B^2;B>r]\to0 .
+\end{equation}
+
+\begin{proposition}\label{prop:upper}
+Under $\Pp_0$, $\frac1r\sup_{s\le r^2T}\bigl(W_r(s)-hQ_r(s)\bigr)^+\to0$ in probability.
+\end{proposition}
+
+\begin{proof}
+Since $\mu_{\rm s}\le h$,
+\[
+W_r-hQ_r=D_{\rm s}-(h-\mu_{\rm s})Q_r+\sum_{j<J_r}V_j+V_{\rm b}\le|D_{\rm s}|+\sum_{j<J_r}V_j+V_{\rm b}.
+\]
+On the complement of the event in Proposition~\ref{prop:dyadic},
+\[
+\frac1r\sum_{j<J_r}V_j(s)\le C\sum_{j<J_r}\mu_j+\epsilon\le\frac{C\,\E[B^2;B>L]}{2m}+\epsilon\qquad(s\le r^2T).
+\]
+Given $\eta>0$, choose $C$ and $A$ such that $\Pp_0(\sup_{s\le r^2T}Q_r(s)>Cr)$ and $\Pp_0(N_r(r^2T)>Ar)$ are below $\eta$ for all large $r$ (Proposition~\ref{prop:lower} and Lemma~\ref{lem:ncycles}), then $\epsilon=\eta$, then $L$ with $C\E[B^2;B>L]/(2m)<\eta$, and let $r\to\infty$, using Propositions~\ref{prop:small} and~\ref{prop:dyadic} and \eqref{eq:big}.
+\end{proof}
+
+Propositions~\ref{prop:lower} and~\ref{prop:upper} together give \eqref{eq:collapse} under $\Pp_0$.
+
+\section{Proof of Theorem~\ref{thm:main}}\label{sec:proof}
+
+Let $\lambda_r$ satisfy $r(1-\lambda_rm)\to\beta$, and let $\Pp_r$ be the law of the queue started empty at rate $\lambda_r$. On the horizon $H_r=r^2(T+1)$ the primitive data are the arrival times, the service requirements and the independent uniform variables used for the insertions; only the law of the arrival times depends on the rate. The likelihood ratio of $\Pp_r$ to $\Pp_0$ on this horizon is
+\[
+\Lambda_r=e^{(\lambda^0_r-\lambda_r)H_r}\Bigl(\frac{\lambda_r}{\lambda^0_r}\Bigr)^{A_r(H_r)},\qquad\E_0\Lambda_r^2=\exp\Bigl(\frac{H_r(\lambda_r-\lambda_r^0)^2}{\lambda_r^0}\Bigr).
+\]
+Since $\lambda_r-\lambda^0_r=(1-r(1-\lambda_rm))/(rm)=O(1/r)$, $\E_0\Lambda^2_r$ is bounded, and by the Cauchy--Schwarz inequality $\Pp_r(E)\le(\E_0\Lambda_r^2)^{1/2}\Pp_0(E)^{1/2}$ for every event $E$ determined by the path on $[0,H_r]$. Hence \eqref{eq:collapse} holds under $\Pp_r$. At rate $\lambda_r$ the centred input $\sum_{k\le A_r(r^2t)}B_k-r^2t$, divided by $r$, has drift $-r(1-\lambda_rm)t\to-\beta t$ and variance $\lambda_rm_2t\to\sigma^2t$, so $W_r(r^2\cdot)/r\Rightarrow\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$ \cite{Whi}. By \eqref{eq:collapse}, $Q_r(r^2\cdot)/r-W_r(r^2\cdot)/(hr)\to0$ uniformly on compact intervals in probability, and since the limit is continuous the convergence of $Q_r(r^2\cdot)/r$ in $D([0,\infty))$ follows. \qed
+
+\begin{remark}
+The empty initial state is used in \eqref{eq:cond}, in Lemma~\ref{lem:ncycles} and in Proposition~\ref{prop:dyadic}, where every job counted arrives during $[0,r^2T]$. The same proof applies to any initial states for which \eqref{eq:collapse} holds at time zero and whose jobs leave the system or have total work $o_{\Pp}(r)$ by time $o(r^2)$, but we have not pursued this.
+\end{remark}
+
+\section{Computations}\label{sec:numerics}
+
+The repository \cite{code} contains three simulation programs and a Lean file. They are checks of individual steps, not part of the proof. The program \texttt{checks.py} simulates $288$ paths of the queue under four disciplines (processor sharing, service to the middle position, service alternating between the two ends according to the parity of $n$, and half the server to each end) for deterministic service and for a Pareto law with index $3$, which has finite second and infinite fourth moment, at $r=16,32,64$, and checks the interpolation inequality \eqref{eq:bridge} at every event; the smallest slack is $-3.6\cdot10^{-15}$. The programs \texttt{check\_regeneration.py} and \texttt{check\_marked\_cycles.py} test the identity of Lemma~\ref{lem:cycle} for the same four disciplines, the first for deterministic service with a predicate on the queue length and the workload, the second for a two-point service law with a predicate on the residual work of the jobs of the larger original size. In both cases the exact value $r\,p_I\,\pi_r(S)$ is computed in rational arithmetic from Lemma~\ref{lem:product}, $8{,}000$ simulated cycles are used for each discipline, and the simulated means differ from the exact values by at most $1.42$ and $0.72$ standard errors respectively. The Lean file checks the scalar step behind \eqref{eq:sandwich}.
+
+\section*{Acknowledgements and funding}
+The research presented in this paper was supported by the European Research
+Council (ERC) under the European Union's Horizon Europe research and
+innovation programme (grant agreement No.~101041711), by the Simons
+Foundation as part of the Collaboration on the Mathematical and Scientific
+Foundations of Deep Learning, by Heights Labs, by Convex Nexus Capital, by
+the Israel Science Foundation (grant number 2258/19), and by the Israel
+Science Foundation (ISF Grant 4101/25). Computational resources were
+provided in part by Google Cloud through its education credits program
+(credit 530550103).
+
+\section*{Declaration of competing interest}
+The author holds equity in Heights Labs and in Convex Nexus Capital and
+has a management role at Convex Nexus Capital. These entities are included
+in the funding declaration above.
+
+\section*{Declaration of generative AI and AI-assisted technologies}
+The paper comes out of Math Brain, an ongoing project on the use of AI systems for research mathematics. In October 2026 OpenAI GPT models, running as research tasks of that project, proposed the proof of Theorem~\ref{thm:main}, including the cycle identity of Lemma~\ref{lem:cycle} and the dyadic argument of Proposition~\ref{prop:dyadic}, and wrote the simulation programs and the Lean file. In November 2026 Claude Opus~5.5 (Anthropic), working in Claude Code, checked the proof and wrote the paper. The author directed the work and is responsible for the content of the paper and for decisions concerning its dissemination.
+
+\section*{Data availability}
+No data were used. The code is available at\\ \url{https://github.com/yspennstate/symmetric-queue-heavy-traffic}.
+
+\begin{thebibliography}{10}
+
+\bibitem{FZ}
+B.~Fralix and B.~Zwart, Time-dependent properties of symmetric queues, \emph{Queueing Syst.} \textbf{67} (2011), 33--45.
+
+\bibitem{Gro}
+H.~C.~Gromoll, Diffusion approximation for a processor sharing queue in heavy traffic, \emph{Ann. Appl. Probab.} \textbf{14} (2004), 555--611.
+
+\bibitem{Kel}
+F.~P.~Kelly, \emph{Reversibility and Stochastic Networks}, Wiley, Chichester, 1979.
+
+\bibitem{LSZ}
+A.~Lambert, F.~Simatos and B.~Zwart, Scaling limits via excursion theory: interplay between Crump--Mode--Jagers branching processes and processor-sharing queues, \emph{Ann. Appl. Probab.} \textbf{23} (2013), 2357--2381.
+
+\bibitem{Lim}
+V.~Limic, A LIFO queue in heavy traffic, \emph{Ann. Appl. Probab.} \textbf{11} (2001), 301--331.
+
+\bibitem{code}
+Y.~Shmalo, Computations for ``The heavy-traffic diffusion limit of symmetric queues'', \url{https://github.com/yspennstate/symmetric-queue-heavy-traffic}, 2026.
+
+\bibitem{Whi}
+W.~Whitt, \emph{Stochastic-Process Limits}, Springer, New York, 2002.
+
+\bibitem{Zwa}
+B.~Zwart, Conjectures on symmetric queues in heavy traffic, \emph{Queueing Syst.} \textbf{100} (2022), 369--371.
+
+\end{thebibliography}
+
+\end{document}
