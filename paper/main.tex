@@ -57,7 +57,7 @@ Since the workload converges and the limit is continuous, the theorem is equival
 \end{equation}
 The difficulty is that $W_r-hQ_r$ is a sum of residual requirements minus their stationary mean, and the residual law has only a first moment when $\E B^2<\infty$. A lower bound on $W_r-hQ_r$ follows from exponential lower-tail bounds for nonnegative summands, together with a sampling of the stationary process at $O(r)$ times and a deterministic interpolation inequality (Section~\ref{sec:lower}). For the upper bound we keep the original service requirement of every job as a mark. Jobs with original requirement at most a fixed $L$ contribute summands bounded by $2L$, to which Hoeffding's inequality applies. Jobs with original requirement in a dyadic band $(b,2b]$ with $L<b\le r$ contribute summands bounded by $2b$, and their residual work can only cross a high level at the arrival of a job of that band. We count these arrivals over whole busy cycles: by the regenerative structure the expected number of arrivals per cycle whose pre-arrival state lies in a set $S$ is exactly $r\,p\,\pi_r(S)$, where $p$ is the probability of the band and $\pi_r$ the stationary law, and there are $O(r)$ cycles before time $r^2T$. A Bernstein bound for $\pi_r(S)$ then decays like $\exp(-c2^{j/2})$ in the index $j$ of the band, which is summable, while $r^2p\le4b^{-2}r^2\E[B^2;B\in(b,2b]]$ tends to zero for each fixed band. Jobs with original requirement above $r$ carry total work $o_{\Pp}(r)$ on $[0,r^2T]$ because $\E B^2<\infty$ (Section~\ref{sec:upper}). The theorem for every real $\beta$ then follows by a change of measure from one reference load (Section~\ref{sec:proof}).
 
-The argument uses no diffusion limit for the queue length, no fluid model and no measure-valued process; the only inputs about symmetric queues are the product-form stationary law and the fact that the workload does not depend on $\gamma$.
+The argument uses no diffusion limit for the queue length, no fluid model of the kind used for state-space collapse in multiclass networks \cite{Bra,Wil} and no measure-valued process; the only inputs about symmetric queues are the product-form stationary law and the fact that the workload does not depend on $\gamma$.
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -308,6 +308,8 @@ The paper is part of the Math Brain project, whose public repository is \url{htt
 
 \begin{thebibliography}{10}
 
+\bibitem{Bra}
+M.~Bramson, State space collapse with application to heavy traffic limits for multiclass queueing networks, \emph{Queueing Syst.} \textbf{30} (1998), 89--140.
 \bibitem{FZ}
 B.~Fralix and B.~Zwart, Time-dependent properties of symmetric queues, \emph{Queueing Syst.} \textbf{67} (2011), 33--45.
 
@@ -329,6 +331,8 @@ Y.~Shmalo, Computations for ``The heavy-traffic diffusion limit of symmetric que
 \bibitem{Whi}
 W.~Whitt, \emph{Stochastic-Process Limits}, Springer, New York, 2002.
 
+\bibitem{Wil}
+R.~J.~Williams, Diffusion approximations for open multiclass queueing networks: sufficient conditions involving state space collapse, \emph{Queueing Syst.} \textbf{30} (1998), 27--88.
 \bibitem{Zwa}
 B.~Zwart, Conjectures on symmetric queues in heavy traffic, \emph{Queueing Syst.} \textbf{100} (2022), 369--371.
 
