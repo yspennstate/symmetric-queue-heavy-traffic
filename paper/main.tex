@@ -51,7 +51,7 @@ Let $\gamma$ be any symmetric discipline and let $B$ be a nonnegative random var
 \]
 \end{theorem}
 
-Since the workload converges and the limit is continuous, the theorem is equivalent to the uniform state-space collapse
+Since the workload converges and the limit is continuous, to prove the theorem it suffices to prove the uniform state-space collapse
 \begin{equation}\label{eq:collapse}
 \frac1r\sup_{s\le r^2T}\bigl|W_r(s)-hQ_r(s)\bigr|\to0\quad\text{in probability, for every }T<\infty.
 \end{equation}
@@ -90,11 +90,11 @@ For $\rho=\lambda m<1$ the symmetric queue with marks has the unique stationary 
 \end{lemma}
 
 \begin{proof}
-This is the product-form theorem for symmetric queues \cite[Chapter~3]{Kel}, with the original requirement carried along as part of the job type; we indicate the balance computation. Let $p_n=(1-\rho)\rho^n$ and let $f_n$ be bounded smooth test functions of $n$ marked jobs. In the coordinate of the job in position $i$, which is served at rate $\gamma(n,i)$, integration by parts gives
+This is the product-form theorem for symmetric queues \cite[Chapter~3]{Kel}, with the original requirement carried along as part of the job type; we indicate the balance computation. Let $p_n=(1-\rho)\rho^n$ and let $f_n$ be bounded smooth test functions of $n$ marked jobs, taken in the domain of the generator, that is, satisfying the boundary condition $f_n(\dots,(b,0),\dots)=f_{n-1}(\text{the same sequence with this job deleted})$; without this condition the identity below fails. In the coordinate of the job in position $i$, which is served at rate $\gamma(n,i)$, integration by parts gives
 \[
 \int\frac{F(db)}m\int_0^b-\partial_xf_n(\dots,(b,x),\dots)\,dx=\int\frac{F(db)}m\bigl[f_{n-1}(\text{job $i$ removed})-f_n(\dots,(b,b),\dots)\bigr].
 \]
-After multiplying by $\gamma(n,i)p_n$ and summing over $i$, the second term cancels the insertion of an arrival in position $i$ of a queue of $n-1$ jobs, because $p_n/m=\lambda p_{n-1}$ and insertion at $i$ has probability $\gamma(n,i)$. The first term, at level $n+1$, has coefficients $\gamma(n+1,i)$ summing to one and cancels the loss of probability at level $n$ due to arrivals. Hence the measure is invariant. Uniqueness follows from the regeneration at the empty state, whose cycles have finite mean (Lemma~\ref{lem:cycle}).
+After multiplying by $\gamma(n,i)p_n$ and summing over $i$, the second term cancels the insertion of an arrival in position $i$ of a queue of $n-1$ jobs, because $p_n/m=\lambda p_{n-1}$ and insertion at $i$ has probability $\gamma(n,i)$. The first term, at level $n+1$, has coefficients $\gamma(n+1,i)$ summing to one and cancels the loss of probability at level $n$ due to arrivals. Hence the measure is invariant. For uniqueness, the workload does not depend on $\gamma$ and, since $\rho<1$, reaches zero almost surely from every finite initial workload; the busy cycles therefore regenerate at the empty state and have finite mean, by the first assertion of Lemma~\ref{lem:cycle}, whose proof uses the workload alone and not the present lemma. A regenerative process with finite-mean cycles has a unique stationary law.
 \end{proof}
 
 \subsection{Busy cycles}
@@ -191,7 +191,7 @@ Under $\Pp_\pi$ and given $Q_r=n$, $V_{(0,\ell_r]}$ is a sum of $n$ independent 
 \[
 \Pp_\pi\bigl(|D_{\rm s}|>\tfrac\epsilon2r,\ Q_r\le Cr\bigr)\le2\exp\Bigl(-\frac{\epsilon^2r}{8CL^2}\Bigr).
 \]
-By \eqref{eq:cond} the probability under $\Pp_0$ that this happens at some grid point $t_k$ is $O(r^2e^{-cr})$. Apply \eqref{eq:sandwich} to $D_{\rm s}$, using the preceding grid point for the lower bound and the following one for the upper bound, with $\delta$ chosen as in the proof of Proposition~\ref{prop:lower}, and remove the restriction $Q_r\le Cr$ by Proposition~\ref{prop:lower}, letting $C\to\infty$ after $r\to\infty$.
+By \eqref{eq:cond} the probability under $\Pp_0$ that this happens at some grid point $t_k$ is $O(r^2e^{-cr})$. Apply \eqref{eq:sandwich} to $D_{\rm s}$, using the preceding grid point for the lower bound and the following one for the upper bound, with $\delta$ chosen as in the proof of Proposition~\ref{prop:lower}, and remove the restriction $Q_r\le Cr$ at every grid point, including the one following $r^2T$, by Proposition~\ref{prop:lower} applied with the horizon $T+1$, letting $C\to\infty$ after $r\to\infty$.
 \end{proof}
 
 \subsection{Dyadic classes}
@@ -255,11 +255,11 @@ Since $\mu_{\rm s}\le h$,
 \[
 W_r-hQ_r=D_{\rm s}-(h-\mu_{\rm s})Q_r+\sum_{j<J_r}V_j+V_{\rm b}\le|D_{\rm s}|+\sum_{j<J_r}V_j+V_{\rm b}.
 \]
-On the complement of the event in Proposition~\ref{prop:dyadic},
+Let $G_r=\{\sup_{s\le r^2T}Q_r(s)\le Cr,\ N_r(r^2T)\le Ar\}$ and let $F_r\subset G_r$ be the event in Proposition~\ref{prop:dyadic}. On $G_r\setminus F_r$,
 \[
 \frac1r\sum_{j<J_r}V_j(s)\le C\sum_{j<J_r}\mu_j+\epsilon\le\frac{C\,\E[B^2;B>L]}{2m}+\epsilon\qquad(s\le r^2T).
 \]
-Given $\eta>0$, choose $C$ and $A$ such that $\Pp_0(\sup_{s\le r^2T}Q_r(s)>Cr)$ and $\Pp_0(N_r(r^2T)>Ar)$ are below $\eta$ for all large $r$ (Proposition~\ref{prop:lower} and Lemma~\ref{lem:ncycles}), then $\epsilon=\eta$, then $L$ with $C\E[B^2;B>L]/(2m)<\eta$, and let $r\to\infty$, using Propositions~\ref{prop:small} and~\ref{prop:dyadic} and \eqref{eq:big}.
+Given $\eta>0$, choose $C$ and $A$ such that $\Pp_0(\sup_{s\le r^2T}Q_r(s)>Cr)$ and $\Pp_0(N_r(r^2T)>Ar)$ are below $\eta$ for all large $r$ (Proposition~\ref{prop:lower} and Lemma~\ref{lem:ncycles}), then $\epsilon=\eta$, then $L$ with $C\E[B^2;B>L]/(2m)<\eta$, and let $r\to\infty$, using Propositions~\ref{prop:small} and~\ref{prop:dyadic} and \eqref{eq:big}. The exceptional probability is at most $\Pp_0(G_r^c)+\Pp_0(F_r)\le2\eta+\Pp_0(F_r)$ for large $r$, and $\Pp_0(F_r)\to0$; since $\eta$ is arbitrary, the proposition follows.
 \end{proof}
 
 Propositions~\ref{prop:lower} and~\ref{prop:upper} together give \eqref{eq:collapse} under $\Pp_0$.
@@ -273,7 +273,7 @@ Let $\lambda_r$ satisfy $r(1-\lambda_rm)\to\beta$, and let $\Pp_r$ be the law of
 Since $\lambda_r-\lambda^0_r=(1-r(1-\lambda_rm))/(rm)=O(1/r)$, $\E_0\Lambda^2_r$ is bounded, and by the Cauchy--Schwarz inequality $\Pp_r(E)\le(\E_0\Lambda_r^2)^{1/2}\Pp_0(E)^{1/2}$ for every event $E$ determined by the path on $[0,H_r]$. Hence \eqref{eq:collapse} holds under $\Pp_r$. At rate $\lambda_r$ the centred input $\sum_{k\le A_r(r^2t)}B_k-r^2t$, divided by $r$, has drift $-r(1-\lambda_rm)t\to-\beta t$ and variance $\lambda_rm_2t\to\sigma^2t$, so $W_r(r^2\cdot)/r\Rightarrow\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$ \cite{Whi}. By \eqref{eq:collapse}, $Q_r(r^2\cdot)/r-W_r(r^2\cdot)/(hr)\to0$ uniformly on compact intervals in probability, and since the limit is continuous the convergence of $Q_r(r^2\cdot)/r$ in $D([0,\infty))$ follows. \qed
 
 \begin{remark}
-The empty initial state is used in \eqref{eq:cond}, in Lemma~\ref{lem:ncycles} and in Proposition~\ref{prop:dyadic}, where every job counted arrives during $[0,r^2T]$. The same proof applies to any initial states for which \eqref{eq:collapse} holds at time zero and whose jobs leave the system or have total work $o_{\Pp}(r)$ by time $o(r^2)$, but we have not pursued this.
+The empty initial state is used in \eqref{eq:cond}, in Lemma~\ref{lem:ncycles} and in Proposition~\ref{prop:dyadic}, where every job counted arrives during $[0,r^2T]$. Collapse at time zero, together with the departure of all initial jobs by time $o(r^2)$, does not suffice for \eqref{eq:collapse} from a nonempty initial state. For processor sharing with $B=1$ and $\lambda_r=1-1/r$, start with $r$ jobs of original requirement $1$ and remaining requirement $\frac12$, so that $W_r(0)=hQ_r(0)$. No arriving job can leave before these $r$ jobs leave together, at a time $\tau_r$ with $\tau_r/r\to e^{1/2}-1$ in probability, and at $\tau_r$ the difference $W_r-hQ_r$ jumps by $r/2$. An extension to nonempty initial states would require control of the initial residual profile throughout the initial layer.
 \end{remark}
 
 \section{Computations}\label{sec:numerics}
@@ -305,6 +305,44 @@ The paper comes out of Math Brain, an ongoing project on the use of AI systems f
 No data were used. The code is available at\\ \url{https://github.com/yspennstate/symmetric-queue-heavy-traffic}.
 
 The paper is part of the Math Brain project, whose public repository is \url{https://github.com/yspennstate/math-brain-public}~\cite{MathBrainRepo}.
+
+\appendix
+\section{Notation}\label{app:notation}
+The table lists the main symbols with the place where each is introduced.
+
+\medskip
+\noindent
+\begin{tabular}{@{}p{0.2\textwidth}p{0.56\textwidth}p{0.16\textwidth}@{}}
+Symbol & Meaning & First appears\\\hline
+$\gamma(n,i)$ & share of the server given to position $i$ at queue length $n$; also the insertion probability & Section~\ref{sec:intro}\\
+$B$, $F$ & service requirement and its law & Section~\ref{sec:intro}, \S2.1\\
+$m$, $m_2$ & $\E B$ and $\E B^2$ & Section~\ref{sec:intro}\\
+$h$ & $m_2/(2m)$, mean of the equilibrium residual law & Section~\ref{sec:intro}\\
+$\sigma^2$ & $m_2/m$ & Section~\ref{sec:intro}\\
+$\lambda_r$, $\beta$ & arrival rate of the $r$-th system, with $r(1-\lambda_rm)\to\beta$ & Section~\ref{sec:intro}\\
+$Q_r$, $W_r$ & queue length and workload & Section~\ref{sec:intro}\\
+$\Gamma$ & reflection map at zero & Section~\ref{sec:intro}\\
+$\mathcal B$ & standard Brownian motion & Section~\ref{sec:intro}\\
+$\lambda^0_r$, $\rho^0_r$ & reference rate $(1-1/r)/m$ and load $1-1/r$ & \S2.1\\
+$\Pp_0$, $\Pp_\pi$ & queue at the reference rate started empty, and its stationary version & \S2.1\\
+$\Pp_r$ & queue at rate $\lambda_r$ started empty & Section~\ref{sec:proof}\\
+$(b_i,x_i)$ & original and remaining requirement of the job in position $i$ & \S2.1\\
+$V_I$ & remaining work of jobs with original requirement in $I$ & \S2.1\\
+$A_r(t)$ & number of arrivals in $[0,t]$ & \S2.1\\
+$H$ & stationary law of one mark $(b,x)$ & \S2.2\\
+$X_I$ & $x\1\{b\in I\}$ under $H$ & \eqref{eq:XI}\\
+$\pi_r$ & stationary law at the reference rate & Lemma~\ref{lem:cycle}\\
+$C_r$ & length of a cycle (idle period and the following busy period) & \S2.3\\
+$I_r(t)$ & idle time in $[0,t]$ & \S2.4\\
+$N_r(t)$ & number of busy periods started in $[0,t]$ & Lemma~\ref{lem:ncycles}\\
+$R_k$, $S_n$ & independent equilibrium residuals and their partial sums & Section~\ref{sec:lower}\\
+$L$, $J_r$, $\ell_r$ & small-requirement cutoff and number of dyadic classes & Section~\ref{sec:upper}\\
+$\mu_{\rm s}$, $D_{\rm s}$ & mean residual of small jobs and $V_{(0,\ell_r]}-\mu_{\rm s}Q_r$ & \S4.1\\
+$b_j$, $I_j$, $p_j$, $w_j$, $\mu_j$, $V_j$ & dyadic class $j$ and its quantities & \S4.2\\
+$a_j$, $x_j$, $M_j$ & weights, slack and threshold for class $j$ & \S4.2\\
+$V_{\rm b}$ & remaining work of jobs with requirement above $r$ & \S4.3\\
+$G_r$, $F_r$ & cap event and the bad event of Proposition~\ref{prop:dyadic} & Proposition~\ref{prop:upper}\\
+\end{tabular}
 
 \begin{thebibliography}{10}
 
