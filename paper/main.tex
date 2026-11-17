@@ -36,7 +36,7 @@ Consider an M/G/1 queue operating under a symmetric service discipline in the se
 
 \section{Introduction}\label{sec:intro}
 
-A symmetric queue \cite{Kel} is a single-server queue in which the jobs present are arranged in positions $1,\dots,n$, the job in position $i$ is served at rate $\gamma(n,i)$, and a job arriving to a queue with $n-1$ jobs is placed in position $i$ with probability $\gamma(n,i)$; jobs behind an inserted job move back one place, and jobs behind a departing job move forward. Here $\gamma(n,i)\ge0$ and $\sum_{i=1}^n\gamma(n,i)=1$. Processor sharing, $\gamma(n,i)=1/n$, and preemptive last-come-first-served, $\gamma(n,1)=1$, are the best-known examples. With Poisson arrivals the stationary law is insensitive: the queue length is geometric and, given the queue length, the residual service requirements are independent with the equilibrium residual law, whatever $\gamma$ and the service law are \cite{Kel}.
+A symmetric queue in the sense of Kelly \cite{Kel} is a single-server queue in which the jobs present are arranged in positions $1,\dots,n$, the job in position $i$ is served at rate $\gamma(n,i)$, and a job arriving to a queue with $n-1$ jobs is placed in position $i$ with probability $\gamma(n,i)$; jobs behind an inserted job move back one place, and jobs behind a departing job move forward. Here $\gamma(n,i)\ge0$ and $\sum_{i=1}^n\gamma(n,i)=1$. Processor sharing, $\gamma(n,i)=1/n$, and preemptive last-come-first-served, $\gamma(n,1)=1$, are the best-known examples. With Poisson arrivals the stationary law is insensitive: the queue length is geometric and, given the queue length, the residual service requirements are independent with the equilibrium residual law, whatever $\gamma$ and the service law are \cite{Kel}.
 
 Zwart \cite{Zwa} asked whether this insensitivity extends to the heavy-traffic diffusion limit. Let the $r$-th system have arrival rate $\lambda_r$, service requirements distributed as a fixed random variable $B$ with
 \[
@@ -278,7 +278,7 @@ The empty initial state is used in \eqref{eq:cond}, in Lemma~\ref{lem:ncycles} a
 
 \section{Computations}\label{sec:numerics}
 
-The repository \cite{code} contains three simulation programs and a Lean file. They are checks of individual steps, not part of the proof. The program \texttt{checks.py} simulates $288$ paths of the queue under four disciplines (processor sharing, service to the middle position, service alternating between the two ends according to the parity of $n$, and half the server to each end) for deterministic service and for a Pareto law with index $3$, which has finite second and infinite fourth moment, at $r=16,32,64$, and checks the interpolation inequality \eqref{eq:bridge} at every event; the smallest slack is $-3.6\cdot10^{-15}$. The programs \texttt{check\_regeneration.py} and \texttt{check\_marked\_cycles.py} test the identity of Lemma~\ref{lem:cycle} for the same four disciplines, the first for deterministic service with a predicate on the queue length and the workload, the second for a two-point service law with a predicate on the residual work of the jobs of the larger original size. In both cases the exact value $r\,p_I\,\pi_r(S)$ is computed in rational arithmetic from Lemma~\ref{lem:product}, $8{,}000$ simulated cycles are used for each discipline, and the simulated means differ from the exact values by at most $1.42$ and $0.72$ standard errors respectively. The Lean file checks the scalar step behind \eqref{eq:sandwich}.
+The repository \url{https://github.com/yspennstate/symmetric-queue-heavy-traffic} contains three simulation programs and a Lean file. They are checks of individual steps, not part of the proof. The program \texttt{checks.py} simulates $288$ paths of the queue under four disciplines (processor sharing, service to the middle position, service alternating between the two ends according to the parity of $n$, and half the server to each end) for deterministic service and for a Pareto law with index $3$, which has finite second and infinite fourth moment, at $r=16,32,64$, and checks the interpolation inequality \eqref{eq:bridge} at every event; the smallest slack is $-3.6\cdot10^{-15}$. The programs \texttt{check\_regeneration.py} and \texttt{check\_marked\_cycles.py} test the identity of Lemma~\ref{lem:cycle} for the same four disciplines, the first for deterministic service with a predicate on the queue length and the workload, the second for a two-point service law with a predicate on the residual work of the jobs of the larger original size. In both cases the exact value $r\,p_I\,\pi_r(S)$ is computed in rational arithmetic from Lemma~\ref{lem:product}, $8{,}000$ simulated cycles are used for each discipline, and the simulated means differ from the exact values by at most $1.42$ and $0.72$ standard errors respectively. The Lean file checks the scalar step behind \eqref{eq:sandwich}.
 
 \section*{Acknowledgements and funding}
 The research presented in this paper was supported by the European Research
@@ -300,6 +300,8 @@ in the funding declaration above.
 
 \section*{Declaration of generative AI and AI-assisted technologies}
 The paper comes out of Math Brain, an ongoing project on the use of AI systems for research mathematics. In October 2026 OpenAI GPT models, running as research tasks of that project, proposed the proof of Theorem~\ref{thm:main}, including the cycle identity of Lemma~\ref{lem:cycle} and the dyadic argument of Proposition~\ref{prop:dyadic}, and wrote the simulation programs and the Lean file. In November 2026 Claude Opus~5.5 (Anthropic), working in Claude Code, checked the proof and wrote the paper. The author directed the work and is responsible for the content of the paper and for decisions concerning its dissemination.
+
+The results rest on the work of others. The question is Problem~1 of Zwart~\cite{Zwa}. The insensitive product-form stationary law of symmetric queues is due to Kelly~\cite{Kel}, and the workload limit is the functional central limit theorem of~\cite{Whi}. The theorem was known for processor sharing from Gromoll~\cite{Gro} and from Lambert, Simatos and Zwart~\cite{LSZ}, and for last-come-first-served from Limic~\cite{Lim}; Fralix and Zwart~\cite{FZ} showed that the law of the queue length at a fixed time does not depend on the discipline. The paper adds the state-space collapse \eqref{eq:collapse} for every symmetric discipline under $\E B^2<\infty$, through the cycle identity of Lemma~\ref{lem:cycle} and the dyadic Bernstein bound of Proposition~\ref{prop:dyadic}. These use only the stationary law and the regenerative structure at empty times, with no fluid model and no measure-valued process.
 
 \section*{Data availability}
 No data were used. The code is available at\\ \url{https://github.com/yspennstate/symmetric-queue-heavy-traffic}.
@@ -362,9 +364,6 @@ A.~Lambert, F.~Simatos and B.~Zwart, Scaling limits via excursion theory: interp
 
 \bibitem{Lim}
 V.~Limic, A LIFO queue in heavy traffic, \emph{Ann. Appl. Probab.} \textbf{11} (2001), 301--331.
-
-\bibitem{code}
-Y.~Shmalo, Computations for ``The heavy-traffic diffusion limit of symmetric queues'', \url{https://github.com/yspennstate/symmetric-queue-heavy-traffic}, 2026.
 
 \bibitem{Whi}
 W.~Whitt, \emph{Stochastic-Process Limits}, Springer, New York, 2002.
