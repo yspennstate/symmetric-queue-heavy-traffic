@@ -30,7 +30,7 @@
 
 \begin{document}
 \begin{abstract}
-Consider an M/G/1 queue operating under a symmetric service discipline in the sense of Kelly: at queue length $n$ the job in position $i$ receives the fraction $\gamma(n,i)$ of the server, and an arriving job joins position $i$ with probability $\gamma(n+1,i)$. Zwart conjectured that, for every such discipline and every service law with finite second moment, the queue length started empty and scaled diffusively in heavy traffic converges to the same reflected Brownian motion, the workload limit divided by $h=\E B^2/(2\E B)$. This was known for processor sharing and for last-come-first-served. We prove the conjecture for every symmetric discipline and every service law with $\E B^2<\infty$. The proof is a state-space collapse $\sup_{s\le r^2T}|W_r(s)-hQ_r(s)|=o_{\Pp}(r)$. It uses only the product-form stationary law of the queue with the original service requirements kept as marks, the regenerative structure at empty times, and a Bernstein bound for jobs grouped into dyadic classes of original requirement, which can be summed over the classes because the number of busy cycles up to time $r^2T$ is of order $r$.
+Consider an M/G/1 queue operating under a symmetric service discipline in the sense of Kelly: at queue length $n$ the job in position $i$ receives the fraction $\gamma(n,i)$ of the server, and an arriving job joins position $i$ with probability $\gamma(n+1,i)$. Zwart conjectured that, for every such discipline and every service law with finite second moment, the queue length scaled diffusively in heavy traffic converges to the same reflected Brownian motion, the workload limit divided by $h=\E B^2/(2\E B)$. This was known for processor sharing and for last-come-first-served. We prove the conjecture for the queue started empty, for every symmetric discipline and every service law with $\E B^2<\infty$. The proof is a state-space collapse $\sup_{s\le r^2T}|W_r(s)-hQ_r(s)|=o_{\Pp}(r)$. It uses only the product-form stationary law of the queue with the original service requirements kept as marks, the regenerative structure at empty times, and a Bernstein bound for jobs grouped into dyadic classes of original requirement, which can be summed over the classes because the number of busy cycles up to time $r^2T$ is of order $r$.
 \end{abstract}
 \maketitle
 
@@ -42,7 +42,7 @@ Zwart \cite{Zwa} asked whether this insensitivity extends to the heavy-traffic d
 \[
 m=\E B\in(0,\infty),\qquad m_2=\E B^2<\infty,\qquad h=\frac{m_2}{2m},
 \]
-and suppose $r(1-\lambda_rm)\to\beta\in\R$. Let $Q_r(t)$ be the number of jobs and $W_r(t)$ the workload at time $t$. The workload does not depend on $\gamma$, and the classical functional central limit theorem gives $W_r(r^2\cdot)/r\Rightarrow\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$, where $\sigma^2=m_2/m$, $\mathcal B$ is a standard Brownian motion and $\Gamma(x)(t)=x(t)-\min(0,\inf_{s\le t}x(s))$ is the reflection map at zero. Fralix and Zwart \cite{FZ} showed that for a queue started empty the law of $Q_r(t)$ at a fixed time does not depend on $\gamma$. Problem~1 of \cite{Zwa} asks whether $Q_r(r^2\cdot)/r$ converges, for every symmetric discipline, to $h^{-1}\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$. For processor sharing this was proved by Gromoll \cite{Gro} under a fourth-moment assumption and by Lambert, Simatos and Zwart \cite{LSZ} under the second moment alone; for last-come-first-served it is due to Limic \cite{Lim}. We prove it in general.
+and suppose $r(1-\lambda_rm)\to\beta\in\R$. Let $Q_r(t)$ be the number of jobs and $W_r(t)$ the workload at time $t$. The workload does not depend on $\gamma$, and the classical functional central limit theorem gives $W_r(r^2\cdot)/r\Rightarrow\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$, where $\sigma^2=m_2/m$, $\mathcal B$ is a standard Brownian motion and $\Gamma(x)(t)=x(t)-\min(0,\inf_{s\le t}x(s))$ is the reflection map at zero. Fralix and Zwart \cite{FZ} showed that for a queue started empty the law of $Q_r(t)$ at a fixed time does not depend on $\gamma$. Problem~1 of \cite{Zwa} asks whether $Q_r(r^2\cdot)/r$ converges, for every symmetric discipline, to $h^{-1}\Gamma(\sigma\mathcal B-\beta\,\mathrm{id})$. For processor sharing this was proved by Gromoll \cite{Gro} and Puha and Williams \cite{PW} under a fourth-moment assumption and by Lambert, Simatos and Zwart \cite{LSZ} under the second moment alone; for last-come-first-served it is due to Limic \cite{Lim}. We prove it for every symmetric discipline, for the queue started empty.
 
 \begin{theorem}\label{thm:main}
 Let $\gamma$ be any symmetric discipline and let $B$ be a nonnegative random variable with $0<\E B<\infty$ and $\E B^2<\infty$. Suppose $r(1-\lambda_r\E B)\to\beta\in\R$ and $Q_r(0)=0$. Then, in $D([0,\infty))$ with the $J_1$ topology,
@@ -287,9 +287,7 @@ innovation programme (grant agreement No.~101041711), by the Simons
 Foundation as part of the Collaboration on the Mathematical and Scientific
 Foundations of Deep Learning, by Heights Labs, by Convex Nexus Capital, by
 the Israel Science Foundation (grant number 2258/19), and by the Israel
-Science Foundation (ISF Grant 4101/25). Computational resources were
-provided in part by Google Cloud through its education credits program
-(credit 530550103).
+Science Foundation (ISF Grant 4101/25).
 
 This work was done by multiple AI agents, Claude (Anthropic) and Codex (OpenAI), connected to Math Brain~\cite{MathBrainRepo} and working together inside the Brain framework~\cite{BrainFramework}, a shared, persistent memory in which the agents record claims, proofs, failed attempts and methods, retrieve one another's results, coordinate who works on what, and audit each other's work. For more on the details behind the Brain and Math Brain, see the Math Brain paper~\cite{MathBrainPaper}, the Math Brain repository~\cite{MathBrainRepo} and the Brain framework repository~\cite{BrainFramework}.
 
@@ -301,7 +299,7 @@ in the funding declaration above.
 \section*{Declaration of generative AI and AI-assisted technologies}
 The paper comes out of Math Brain, an ongoing project on the use of AI systems for research mathematics. In October 2026 OpenAI GPT models, running as research tasks of that project, proposed the proof of Theorem~\ref{thm:main}, including the cycle identity of Lemma~\ref{lem:cycle} and the dyadic argument of Proposition~\ref{prop:dyadic}, and wrote the simulation programs and the Lean file. In November 2026 Claude Opus~5.5 (Anthropic), working in Claude Code, checked the proof and wrote the paper. The author directed the work and is responsible for the content of the paper and for decisions concerning its dissemination.
 
-The results rest on the work of others. The question is Problem~1 of Zwart~\cite{Zwa}. The insensitive product-form stationary law of symmetric queues is due to Kelly~\cite{Kel}, and the workload limit is the functional central limit theorem of~\cite{Whi}. The theorem was known for processor sharing from Gromoll~\cite{Gro} and from Lambert, Simatos and Zwart~\cite{LSZ}, and for last-come-first-served from Limic~\cite{Lim}; Fralix and Zwart~\cite{FZ} showed that the law of the queue length at a fixed time does not depend on the discipline. The paper adds the state-space collapse \eqref{eq:collapse} for every symmetric discipline under $\E B^2<\infty$, through the cycle identity of Lemma~\ref{lem:cycle} and the dyadic Bernstein bound of Proposition~\ref{prop:dyadic}. These use only the stationary law and the regenerative structure at empty times, with no fluid model and no measure-valued process.
+The results rest on the work of others. The question is Problem~1 of Zwart~\cite{Zwa}. The insensitive product-form stationary law of symmetric queues is due to Kelly~\cite{Kel}, and the workload limit is the functional central limit theorem of~\cite{Whi}. The theorem was known for processor sharing from Gromoll~\cite{Gro} and Puha and Williams~\cite{PW}, and from Lambert, Simatos and Zwart~\cite{LSZ}, and for last-come-first-served from Limic~\cite{Lim}; Fralix and Zwart~\cite{FZ} showed that the law of the queue length at a fixed time does not depend on the discipline. The paper adds the state-space collapse \eqref{eq:collapse} for every symmetric discipline under $\E B^2<\infty$, through the cycle identity of Lemma~\ref{lem:cycle} and the dyadic Bernstein bound of Proposition~\ref{prop:dyadic}. These use only the stationary law and the regenerative structure at empty times, with no fluid model and no measure-valued process.
 
 \section*{Data availability}
 No data were used. The code is available at\\ \url{https://github.com/yspennstate/symmetric-queue-heavy-traffic}.
@@ -364,6 +362,9 @@ A.~Lambert, F.~Simatos and B.~Zwart, Scaling limits via excursion theory: interp
 
 \bibitem{Lim}
 V.~Limic, A LIFO queue in heavy traffic, \emph{Ann. Appl. Probab.} \textbf{11} (2001), 301--331.
+
+\bibitem{PW}
+A.~L.~Puha and R.~J.~Williams, Invariant states and rates of convergence for a critical fluid model of a processor sharing queue, \emph{Ann. Appl. Probab.} \textbf{14} (2004), 517--554.
 
 \bibitem{Whi}
 W.~Whitt, \emph{Stochastic-Process Limits}, Springer, New York, 2002.
